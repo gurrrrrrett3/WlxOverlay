@@ -5,6 +5,7 @@ using WlxOverlay.GFX;
 using WlxOverlay.GUI;
 using WlxOverlay.Numerics;
 using WlxOverlay.Types;
+using WlxOverlay.Extras;
 
 namespace WlxOverlay.Overlays;
 
@@ -53,12 +54,12 @@ public class Watch : BaseOverlay, IInteractable
         ShowHideBinding = false;
         ZOrder = 67;
 
-        // 400 x 200
-        _canvas = new Canvas(400, 200);
+        // 400 x 260
+        _canvas = new Canvas(400, 260);
 
         Canvas.CurrentBgColor = HexColor.FromRgb("#353535");
 
-        _canvas.AddControl(new Panel(0, 0, 400, 200));
+        _canvas.AddControl(new Panel(0, 0, 400, 260));
 
         Canvas.CurrentFgColor = HexColor.FromRgb("#FFFFFF");
 
@@ -110,8 +111,10 @@ public class Watch : BaseOverlay, IInteractable
             _canvas.AddControl(new DateTimeLabel(timeFormat, tz, 210, 52, 200, 50));
         }
 
-        // Volume controls
+            // media controls
+        MediaController.Instance.AddControls(_canvas);
 
+        // Volume controls
         Canvas.CurrentBgColor = HexColor.FromRgb("#222222");
         Canvas.CurrentFgColor = HexColor.FromRgb("#AAAAAA");
         Canvas.CurrentFont = FontCollection.Get(14, FontStyle.Bold);
@@ -136,7 +139,10 @@ public class Watch : BaseOverlay, IInteractable
                 PointerDown = _ => Runner.TryStart(psiDn)
             });
 
-        // Bottom row
+        // media controls
+        MediaController.Instance.AddControls(_canvas);
+
+        // Screen row
         Canvas.CurrentBgColor = HexColor.FromRgb("#406050");
         Canvas.CurrentFgColor = HexColor.FromRgb("#CCBBAA");
 
@@ -231,7 +237,7 @@ public class Watch : BaseOverlay, IInteractable
             {
                 var device = states[s];
 
-                var indicator = new BatteryIndicator(device, stateWidth * s + 2, 162, (uint)stateWidth - 4U, 36);
+                var indicator = new BatteryIndicator(device, stateWidth * s + 2, 260 - 38, (uint)stateWidth - 4U, 36);
                 _canvas.AddControl(indicator);
                 _batteryControls.Add(indicator);
             }

@@ -82,6 +82,8 @@ AudioManager.Initialize();
 if (!string.IsNullOrWhiteSpace(Config.Instance.NotificationsEndpoint))
     NotificationsManager.Initialize();
 
+    MediaController.Initialize();
+
 var watch = new Watch(keyboard);
 OverlayRegistry.Register(watch);
 
